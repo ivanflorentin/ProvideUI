@@ -1,7 +1,7 @@
 {
-  "name": "provide-app-crud",
+  "name": "provideUI",
   "version": "1.0.0",
-  "description": "Application CRUD using Provide, Redux, React and ReactToobox ",
+  "description": "Application UI CRUD using Provide, ProvideModel, Redux, React and ReactToobox ",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

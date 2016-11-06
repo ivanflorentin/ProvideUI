@@ -1,11 +1,15 @@
 import React, {Component, PropTypes} from 'react'
 import {List, ListSubHeader, Button, Input} from 'react-toolbox'
 
-export default function (modelDef) {
+const createEdit = (modelDef) => {
   const {modelName,
 	 fields
 	} = modelDef
   let propTypes = {}
+
+  const createFieldList = (items, modelDef) => {
+    
+  }
 
   const modelProperName = modelName[0].toUpperCase() + modelName.substring(1)
   const fieldNames = Object.keys(fields)
@@ -16,6 +20,7 @@ export default function (modelDef) {
       propTypes[`${relation}Routes`] = PropTypes.object
       propTypes[`${relation}Templates`] = PropTypes.object
       propTypes[`save${modelProperName}${relationProperName}`] = PropTypes.func
+      propTypes[`store${modelProperName}${relationProperName}`] = PropTypes.func
       propTypes[`delete${modelProperName}${relationProperName}`] = PropTypes.func
       propTypes[`${relation}ModelDef`] = PropTypes.object
       propTypes[`${relation}List`] = PropTypes.object
@@ -36,7 +41,7 @@ export default function (modelDef) {
       fieldNames.map((fieldName) =>{
 	const field = fields[fieldName]
 	const relation = field.relation
-	if (this.state[relation]) {this.state[relation]={}}
+	//if (this.state[relation]) {this.state[relation]={}}
 	if (relation) {
 // 	  const relationProperName = relation[0].toUpperCase() + relation.substring(1)
 // 	  const saveRelation = this.props[`save${modelProperName}${relationProperName}`]
@@ -58,11 +63,9 @@ export default function (modelDef) {
 
     modelWillReceiveProps() {
 //       this.state = JSON.parse(JSON.stringify(this.props[modelName]))
-//       console.log('receiveProps == isValid?', this.state.isValid)
     }
 
     modelWillUpdate() {
-      console.log('modelWillUpdate')
     }
     modelDidUpdate() {console.log('modelDidUpdate')}
 
@@ -71,11 +74,9 @@ export default function (modelDef) {
     }
 
     render() {
-      console.log('Render')
       this.state = JSON.parse(JSON.stringify(this.props[modelName]))
-      console.log('in Update == isValid?', this.state.isValid)
       const listCaption = `Ingrese datos de ${modelProperName}`
-      const listFields = fieldNames.map((fieldName)=>{
+      const listFields = fieldNames.map((fieldName) => {
 	let label = fields[fieldName].label
 	if (!label || label === '') {
 	  label = fieldName
@@ -83,20 +84,25 @@ export default function (modelDef) {
 	const modelField = modelDef.fields[fieldName]
 	const fieldError = `${fieldName}Error`
 	let error = []
-	console.log('errors', this.state[fieldError])
 	if (this.state[fieldError] && this.state[fieldError].length >0) {
 	  error = this.state[fieldError].map((err) =>{return <span key={err}>{err}</span>})
 	}
 	if (fields[fieldName].relation) {
+	  //  create an edit list of model[field]
+	  
 	  const relation = fields[fieldName].relation
 	  const relationList = this.props[`${relation}List`]
 //	  const relationModelDef = this.props[`${relation}ModelDef`]
-//	  const relationProperName = relation[0].toUpperCase() + relation.substring(1)
+	  const relationProperName = relation[0].toUpperCase() + relation.substring(1)
 //	  const saveRelation = this.props[`save${modelProperName}${relationProperName}`]
 //	  const deleteRelation = this.props[`delete${modelProperName}${relationProperName}`]
 	  const routes = `${relation}Routes`
 	  const listRoute = this.props[routes][`${relation}List`]
 	  let relListFields= []
+	  const RelationEditUI = window.__provideUI[`edit${relationProperName}`] 
+	  if (relation) {
+	    //
+	  }
 	  if (relation && this.state[relation]) {
 	    const ids = Object.keys(this.state[relation])
 	    if (ids.length > 0) {
@@ -106,7 +112,8 @@ export default function (modelDef) {
 		for (let key in comp) {
 		  thisComp.push(<div key={key}>{key}: {comp[key]}</div>)
 		}
-		return <div key={comp.uuid}>{thisComp}
+		 return <div key={comp.uuid}>{thisComp}
+		 <ModelEdit />
 		  <Button icon='close' floating accent mini onClick={
 		    () =>{
 		      delete this.state[relation][comp.uuid]
@@ -121,6 +128,7 @@ export default function (modelDef) {
 	  return <div key={fieldName}>
 	    <label>{relation}</label>
 	    <List>{relListFields}</List>
+	    <RelationEditUI/>
 	    <Button icon='add' onClick={() => {
 	      this.state[`${relation}Selecting`] = true
 	      this.props.pushRoute(listRoute)
@@ -158,3 +166,5 @@ export default function (modelDef) {
   ModelEdit.propTypes.pushRoute = PropTypes.func
   return ModelEdit
 }
+
+export default createEdit

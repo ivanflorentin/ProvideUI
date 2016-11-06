@@ -8,7 +8,6 @@ import menuCreator from './menu'
 export {createMainContainer} from './createMainContainer'
 
 export default function (appDef) {
-//  console.log('ProvideAppCrud.appDef', appDef)
   const components = {}
   const providers = {}
   const componentRoutes = []
