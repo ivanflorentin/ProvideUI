@@ -10,7 +10,7 @@
   "license": "ISC",
   "repository" :
   { "type" : "git"
-  , "url" : "https://github.com/ivanflorentin/ProvideAppCRUD"
+  , "url" : "https://github.com/ivanflorentin/ProvideUI"
   },
   "dependencies": {
     "babel-core": "^6.7.4",
