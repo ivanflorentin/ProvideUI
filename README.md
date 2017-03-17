@@ -1,7 +1,22 @@
-# Provide-App-Crud
+# ProvideUI
 #Status: Work In Progress!!
 
-A model based application generator using provide and react-toolbox
+A model based application UI generator using [react-redux-provide](https://github.com/loggur/react-redux-provide) and [react-toolbox](https://github.com/react-toolbox/react-toolbox)
 
-for an example take a look at:  https://github.com/ivanflorentin/mercadito_campesino
+For an example on the model format and boilerplate take a look at:  https://github.com/ivanflorentin/mercadito_campesino
+
+##Dependencies: 
+This project depends on provideModel to create the appropiate providers for the model
+[ProvideModel](https://github.com/ivanflorentin/mercadito_campesino)
+
+
+To help develop link localy: 
+```
+$ cd ProvideUI
+$ npm link
+```
+And then in your project folder:
+```
+$ npm link provideUI 
+```
 
